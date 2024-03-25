@@ -17,6 +17,27 @@ public class attendance {
     private Date date;
     private double WorkDay;
     private double OTday;
+   
+    
+
+    public Date getDate() {
+        return date;
+    }
+    public String getEmployeeId() {
+        return employeeId;
+    }
+    public String getEmployeeName() {
+        return employeeName;
+    }
+    public double getWorkDay() {
+        return WorkDay;
+    }
+    public Long getId() {
+        return id;
+    }
+    public double getOTday() {
+        return OTday;
+    }
 
 
 }
