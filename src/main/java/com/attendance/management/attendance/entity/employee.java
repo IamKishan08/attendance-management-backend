@@ -1,8 +1,7 @@
 package com.attendance.management.attendance.entity;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+
 import jakarta.persistence.Id;
 
 
@@ -10,11 +9,21 @@ import jakarta.persistence.Id;
 @Entity
 public class employee {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
     private String employeeId;
     private String name;
     private String category;
+    
+
+    public void setEmployeeId(String employeeId) {
+        this.employeeId = employeeId;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
 
     public String getEmployeeId() {
         return employeeId;
@@ -25,8 +34,6 @@ public class employee {
     public String getName() {
         return name;
     }
-    public Long getId() {
-        return id;
-    }
+   
 
 }

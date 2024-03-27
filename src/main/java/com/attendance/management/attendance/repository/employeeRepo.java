@@ -6,7 +6,7 @@ import com.attendance.management.attendance.entity.employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
-public interface employeeRepo extends JpaRepository<employee,Long> {
+public interface employeeRepo extends JpaRepository<employee,String> {
 
     
 }
