@@ -1,43 +1,43 @@
 package com.attendance.management.attendance.Service;
 
-import com.attendance.management.attendance.entity.attendance;
-import com.attendance.management.attendance.repository.attendanceRepo;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.multipart.MultipartFile;
+import com.attendance.management.attendance.entity.dailyAttendance;
+import com.attendance.management.attendance.repository.dailyAttenRepo;
+import java.util.*;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 
 @Service
-public class AttendanceService {
+public class dailyAttenService {
     @Autowired
-    private attendanceRepo attendanceRepo;
-    public List<attendance> getAllAttendances(){
-        return attendanceRepo.findAll();
-    }
-    public void createAttendance(attendance attendance) {
-        attendanceRepo.save(attendance);
+    private dailyAttenRepo dailyAttenRepo;
+
+    public List<dailyAttendance> getAllAttendances(){
+        return dailyAttenRepo.findAll();
     }
 
-    public void updateAttendance(String employeeId, attendance attendance) {
-        if (attendanceRepo.existsById(employeeId)) {
-            attendanceRepo.save(attendance);
+    public void createAttendance(dailyAttendance attendance) {
+        dailyAttenRepo.save(attendance);
+    }
+    public void updateAttendance(String employeeId, dailyAttendance attendance) {
+        if (dailyAttenRepo.existsById(employeeId)) {
+            dailyAttenRepo.save(attendance);
         } else {
             // Handle error, attendance not found
         }
     }
 
     public void deleteAttendance(String employeeId) {
-        attendanceRepo.deleteById(employeeId);
+        dailyAttenRepo.deleteById(employeeId);
     }
-
-     public void uploadAttendanceFile(MultipartFile file) throws IOException {
+    
+    public void uploadExcelFile(MultipartFile file) throws IOException {
         if (file.isEmpty()) {
             // Handle empty file error
             return;
@@ -45,10 +45,10 @@ public class AttendanceService {
 
         try (InputStream inputStream = file.getInputStream()) {
             Workbook workbook = new XSSFWorkbook(inputStream);
-            Sheet sheet = workbook.getSheetAt(0); // Assuming attendance data is in the first sheet
+            Sheet sheet = workbook.getSheetAt(0); // Assuming data is in the first sheet
 
             Iterator<Row> iterator = sheet.iterator();
-            List<attendance> attendanceList = new ArrayList<>();
+            List<dailyAttendance> dailyAttendanceList = new ArrayList<>();
 
             while (iterator.hasNext()) {
                 Row currentRow = iterator.next();
@@ -57,19 +57,22 @@ public class AttendanceService {
                     continue;
                 }
 
-                attendance attendance = new attendance();
+                dailyAttendance attendance = new dailyAttendance();
                 attendance.setEmployeeId(currentRow.getCell(0).getStringCellValue());
                 attendance.setEmployeeName(currentRow.getCell(1).getStringCellValue());
                 attendance.setDate(currentRow.getCell(2).getDateCellValue());
                 attendance.setWorkDay(currentRow.getCell(3).getNumericCellValue());
                 attendance.setOTday(currentRow.getCell(4).getNumericCellValue());
 
-                attendanceList.add(attendance);
+                dailyAttendanceList.add(attendance);
             }
 
-            attendanceRepo.saveAll(attendanceList);
+            dailyAttenRepo.saveAll(dailyAttendanceList);
             workbook.close();
         }
     }
+
+
+
 
 }

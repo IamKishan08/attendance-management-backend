@@ -70,7 +70,15 @@ public class EmployeeService {
                 employee.setEmployeeId(currentRow.getCell(0).getStringCellValue());
                 employee.setName(currentRow.getCell(1).getStringCellValue());
                 employee.setCategory(currentRow.getCell(2).getStringCellValue());
-
+                employee.setWage(currentRow.getCell(3).getNumericCellValue());
+                employee.setSiderIncentive(currentRow.getCell(4).getNumericCellValue());
+                employee.setFitIncentive(currentRow.getCell(5).getNumericCellValue());
+                employee.setDepartment(currentRow.getCell(6).getStringCellValue());
+                employee.setSubDepartment(currentRow.getCell(7).getStringCellValue());
+                employee.setJoiningDate(currentRow.getCell(8).getDateCellValue());
+                employee.setVillage(currentRow.getCell(9).getStringCellValue());
+                employee.setPhoneNumber((long)currentRow.getCell(10).getNumericCellValue());
+            
                 employeeList.add(employee);
             }
 
